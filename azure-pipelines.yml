@@ -10,6 +10,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  MONGO_DB: '$(MONGO_DB)'
 
 stages:
 - stage: Build
@@ -27,3 +28,4 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         tags: |
           $(tag)
+        
