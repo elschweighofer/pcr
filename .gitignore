@@ -207,3 +207,7 @@ API
 Training
 Blog
 About
+.vscode/tasks.json
+.vscode/settings.json
+.vscode/launch.json
+Dockerfile copy

@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  microservice:
+    image: microservice
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - MONGO_DB=mongodb://host.docker.internal:27017/
+    ports:
+      - 80:80
