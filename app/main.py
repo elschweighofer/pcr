@@ -42,3 +42,10 @@ async def delete_sample(barcode):
     if response:
         return "Successfully deleted sample"
     raise HTTPException(404, f"There is no Sample with the barcode {barcode}")
+
+@app.post("/api/v1/results/", response_model=Result)
+async def post_result(result: Result):
+    response = await create_result(result.dict())
+    if response:
+        return response
+    raise HTTPException(400, "Something went wrong")
