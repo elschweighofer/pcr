@@ -1,15 +1,12 @@
 # type: ignore
-import motor.motor_asyncio
-from app.model import *
-from dotenv import load_dotenv
-import os    
+from datetime import datetime
+from pydantic import BaseModel
+from app.utils.database import database 
 
-load_dotenv()
-MONGO_DB = os.getenv("MONGO_DB")
+class Sample(BaseModel):
+    barcode: str
+    positive: bool
 
-
-client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DB)
-database = client.PCR
 collection = database.sample
 
 async def fetch_one_sample(barcode):
@@ -34,5 +31,6 @@ async def update_sample(barcode, positive):
     return document
 
 async def remove_sample(barcode):
-    result = await collection.delete_one({"barcode": barcode})
-    return result
+   await collection.delete_one({"barcode": barcode})
+   return True
+

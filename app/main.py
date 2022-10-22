@@ -1,18 +1,12 @@
-from app.database import (
-    fetch_one_sample,  # type: ignore
-    fetch_all_samples,  # type: ignore
-    create_sample,  # type: ignore
-    update_sample,  # type: ignore
-    remove_sample  # type: ignore
-)
-from app.model import *
+# type: ignore
+from app.models.sample import *
+from app.models.result import *
 from fastapi import FastAPI, HTTPException
 
 # App Object
-app = FastAPI()
+app = FastAPI(docs_url="/", redoc_url=None)
 
-
-@app.post("/api/v1/sample/", response_model=Sample)
+@app.post("/api/v1/samples/", response_model=Sample)
 async def post_sample(sample: Sample):
     response = await create_sample(sample.dict())
     if response:
@@ -20,7 +14,7 @@ async def post_sample(sample: Sample):
     raise HTTPException(400, "Something went wrong")
 
 
-@app.get("/api/v1/sample/")
+@app.get("/api/v1/samples/")
 async def get_sample():
     response = await fetch_all_samples()
     return response
@@ -42,9 +36,9 @@ async def put_sample(barcode: str, positive: bool):
     raise HTTPException(400, "Something went wrong")
 
 
-@app.delete("/api/v1/sample/{barcode}", response_model=Sample)
-async def remove_sample(barcode: str):
+@app.delete("/api/v1/samples/{barcode}")
+async def delete_sample(barcode):
     response = await remove_sample(barcode)
     if response:
-        return response
+        return "Successfully deleted sample"
     raise HTTPException(404, f"There is no Sample with the barcode {barcode}")
