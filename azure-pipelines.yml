@@ -10,7 +10,6 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  MONGO_DB: '$(MONGO_DB)'
 
 stages:
 - stage: Build
