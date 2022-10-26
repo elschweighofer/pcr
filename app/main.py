@@ -1,4 +1,3 @@
-# type: ignore
 from app.models.sample import *
 from app.models.result import *
 from fastapi import FastAPI, HTTPException
@@ -49,3 +48,8 @@ async def post_result(result: Result):
     if response:
         return response
     raise HTTPException(400, "Something went wrong")
+
+@app.get("/api/v1/results/get/")
+async def get_all_results():
+    response = await fetch_all_results()
+    return response
