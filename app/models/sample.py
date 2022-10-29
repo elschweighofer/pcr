@@ -1,11 +1,16 @@
 # type: ignore
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError, validator
 from app.utils.database import database 
 
 class Sample(BaseModel):
     barcode: str
     positive: bool
+    @validator('barcode')
+    def barcode_cannot_contain_yz(cls, v):
+        if 'x' or 'y' in v:
+            raise ValueError('cannot contain ambigiuos chars: x, y')
+        return v.title()
 
 collection = database.sample
 
@@ -34,3 +39,4 @@ async def remove_sample(barcode):
    await collection.delete_one({"barcode": barcode})
    return True
 
+def validate_barcode_format
