@@ -38,5 +38,3 @@ async def update_sample(barcode, positive):
 async def remove_sample(barcode):
    await collection.delete_one({"barcode": barcode})
    return True
-
-def validate_barcode_format
