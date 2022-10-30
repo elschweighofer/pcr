@@ -28,7 +28,5 @@ steps:
     containerRegistry: 'evergiven'
     repository: 'micropcr'
     command: 'push'
-    tags: |
-      $(Build.BuildId)
-      arm64
+    tags:
       latest
