@@ -14,7 +14,7 @@ variables:
   imageRepository: 'armicroservice'
   containerRegistry: 'evergiven.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/DockerfileARM'
-  tags: '${{ variables.tag }}'
+  tags: armicroservice:latest
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
