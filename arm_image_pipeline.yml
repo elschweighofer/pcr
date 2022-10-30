@@ -22,7 +22,7 @@ steps:
   displayName: 'enable arm64 emulation'
 
 - script:
-    docker build -f Dockerfile -t evergiven.azurecr.io/micropcr:latest .
+    docker build -f DockerfileARM -t evergiven.azurecr.io/micropcr:latest .
 - task: Docker@2
   inputs:
     containerRegistry: 'evergiven'
