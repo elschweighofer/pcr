@@ -23,3 +23,12 @@ steps:
 
 - script:
     docker build -f Dockerfile -t evergiven.azurecr.io/micropcr:latest .
+- task: Docker@2
+  inputs:
+    containerRegistry: 'evergiven'
+    repository: 'micropcr'
+    command: 'push'
+    tags: |
+      $(Build.BuildId)
+      arm64
+      latest
