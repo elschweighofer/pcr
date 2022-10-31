@@ -1,6 +1,5 @@
-# type: ignore
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from app.utils.database import database
 from .sample import Sample
 
@@ -11,7 +10,10 @@ class Result (BaseModel):
     sample: Sample
     ct: str
     control: str
-    timestamp: datetime
+    ts: datetime = None
+    @validator('ts', pre=True, always=True)
+    def set_ts_now(cls, v):
+        return v or datetime.now()
 
 
 async def create_result(result):
