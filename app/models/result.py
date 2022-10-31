@@ -10,7 +10,7 @@ class Result (BaseModel):
     sample: Sample
     ct: str
     control: str
-    ts: datetime = None
+    ts: datetime = None #type: ignore
     @validator('ts', pre=True, always=True)
     def set_ts_now(cls, v):
         return v or datetime.now()
@@ -31,7 +31,7 @@ async def fetch_all_results():
     results = []
     cursor = collection.find({})
     async for document in cursor:
-        results.append(result(**document))
+        results.append(Result(**document))
     return results
 
 
