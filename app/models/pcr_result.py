@@ -1,19 +1,22 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
 from app.utils.database import database
-from .sample import Sample
-
+from app.models.sample import Sample
+from app.models.pcr_kit import PcrKit
 collection = database.result
 
 
-class Result (BaseModel):
+class PcrResult (BaseModel):
     sample: Sample
-    ct: str
-    control: str
     ts: datetime = None #type: ignore
+    kit : PcrKit
+    ct_values: dict
+
     @validator('ts', pre=True, always=True)
     def set_ts_now(cls, v):
         return v or datetime.now()
+
+    #validator('ct'
 
 
 async def create_result(result):
@@ -31,7 +34,7 @@ async def fetch_all_results():
     results = []
     cursor = collection.find({})
     async for document in cursor:
-        results.append(Result(**document))
+        results.append(PcrResult(**document))
     return results
 
 
