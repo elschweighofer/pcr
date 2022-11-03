@@ -3,7 +3,6 @@ import motor.motor_asyncio
 from dotenv import load_dotenv
 import os    
 
-load_dotenv()
 MONGO_DB = os.getenv("MONGO_DB")
 
 
