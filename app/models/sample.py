@@ -21,9 +21,16 @@ class Sample(BaseModel):
 collection = database.sample
 
 
+async def create_sample(sample):
+    document = sample
+    results = await collection.insert_one(document)
+    return document
+
+
 async def fetch_one_sample(barcode):
     document = await collection.find_one({"barcode": barcode})
     return document
+
 
 async def fetch_all_samples():
     samples = []
@@ -33,12 +40,6 @@ async def fetch_all_samples():
     return samples
 
 
-async def create_sample(sample):
-    document = sample
-    results = await collection.insert_one(document)
-    return results
-
-
 async def remove_sample(barcode):
-    await collection.delete_one({"barcode": barcode})
-    return True
+    delete_result = await collection.delete_one({"barcode": barcode})
+    return delete_result

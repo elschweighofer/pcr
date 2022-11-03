@@ -24,7 +24,7 @@ async def create_result(pcr_result):
     document = pcr_result
     results_main = await collection.insert_one(document)
     results_embedded = await create_sample(pcr_result.get("sample"))
-    return results_main,results_embedded
+    return document
 
 #cursor = db.inventory.find({"size": SON([("h", 14), ("w", 21), ("uom", "cm")])})
 async def fetch_by_sample(barcode):

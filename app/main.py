@@ -39,9 +39,9 @@ async def get_sample_by_barcode(barcode: str, q: str | None = None):
 @app.delete("/samples/{barcode}", tags=["samples"])
 async def delete_sample(barcode):
     response = await remove_sample(barcode)
-    if response:
-        return "Successfully deleted sample"
-    raise HTTPException(404, f"There is no Sample with the barcode {barcode}")
+    if response.deleted_count == 1:
+        return response
+    raise HTTPException(status_code=404, detail=f"Sample {barcode} not found")
 
 
 @app.post("/results/", tags=["results"], response_model=PcrResult)
