@@ -6,7 +6,7 @@ from app.models.pcr_kit \
     import fetch_all_kits, create_kit, PcrKit
 from fastapi import FastAPI, HTTPException
 from app.utils.cache import timed_lru_cache, cache_response
-
+from app.utils.logging import logger
 
 # App Object
 app = FastAPI(docs_url="/", redoc_url=None)
@@ -16,6 +16,7 @@ app = FastAPI(docs_url="/", redoc_url=None)
 async def post_sample(sample: Sample):
     response = await create_sample(sample.dict())
     if response:
+        logger.info(f"created sample {sample.barcode}")
         return response
     raise HTTPException(400, "Something went wrong")
 
@@ -39,7 +40,7 @@ async def get_sample_by_barcode(barcode: str, q: str | None = None):
 @app.delete("/samples/{barcode}", tags=["samples"])
 async def delete_sample(barcode):
     response = await remove_sample(barcode)
-    if response.deleted_count == 1:
+    if response:
         return response
     raise HTTPException(status_code=404, detail=f"Sample {barcode} not found")
 

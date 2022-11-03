@@ -7,6 +7,18 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      - MONGO_DB_URI=mongodb://host.docker.internal:27017/
+      MONGO_DB_HOST: host.docker.internal
+      MONGO_DB_PORT: 27017
+      MONGO_DB_USER: root
+      MONGO_DB_PASSWORD: example
     ports:
       - 80:80
+    
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017

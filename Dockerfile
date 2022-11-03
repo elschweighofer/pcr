@@ -8,9 +8,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
-##for testing container with db on same machine
-ENV MONGO_DB_URI=mongodb://host.docker.internal:27017/
-
 # Install pip requirements
 COPY requirements.txt .
 RUN python -m pip install -r requirements.txt

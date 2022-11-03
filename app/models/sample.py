@@ -1,10 +1,14 @@
 from datetime import datetime
-from pydantic import BaseModel, ValidationError, validator
+import uuid
+from pydantic import BaseModel, Field, ValidationError, validator
 from app.utils.database import database
 
 
+
+
 class Sample(BaseModel):
-    barcode: str
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    barcode: str = Field(...)
     ts: datetime = None  # type: ignore
 
     @validator('barcode')
@@ -16,6 +20,8 @@ class Sample(BaseModel):
     @validator('ts', pre=True, always=True)
     def set_ts_now(cls, v):
         return v or datetime.now()
+    class Config:
+        allow_population_by_field_name = True
 
 
 collection = database.sample
@@ -41,5 +47,5 @@ async def fetch_all_samples():
 
 
 async def remove_sample(barcode):
-    delete_result = await collection.delete_one({"barcode": barcode})
-    return delete_result
+    response = await collection.delete_one({"barcode": barcode})
+    return response
