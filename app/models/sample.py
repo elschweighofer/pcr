@@ -7,8 +7,8 @@ from app.utils.database import database
 
 
 class Sample(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    barcode: str = Field(...)
+    #id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    barcode: str #= Field(...)
     ts: datetime = None  # type: ignore
 
     @validator('barcode')
@@ -47,5 +47,8 @@ async def fetch_all_samples():
 
 
 async def remove_sample(barcode):
-    response = await collection.delete_one({"barcode": barcode})
-    return response
+    sample =  await collection.find_one({"barcode": barcode}) 
+    if sample is not None:
+        await collection.delete_one({"barcode": barcode})
+        return True
+    return False

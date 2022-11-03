@@ -41,7 +41,7 @@ async def get_sample_by_barcode(barcode: str, q: str | None = None):
 async def delete_sample(barcode):
     response = await remove_sample(barcode)
     if response:
-        return response
+        return (f"Deleted Sample with Barcode: {barcode}")
     raise HTTPException(status_code=404, detail=f"Sample {barcode} not found")
 
 
@@ -49,7 +49,7 @@ async def delete_sample(barcode):
 async def post_result(result: PcrResult):
     response = await create_result(result.dict())
     if response:
-        return response
+        return  HTTPException
     raise HTTPException(400, "Something went wrong")
 
 
