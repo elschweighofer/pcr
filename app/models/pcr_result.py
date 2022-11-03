@@ -1,8 +1,9 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
 from app.utils.database import database
-from app.models.sample import Sample
+from app.models.sample import Sample, create_sample
 from app.models.pcr_kit import PcrKit
+from bson.son import SON
 collection = database.result
 
 
@@ -19,15 +20,19 @@ class PcrResult (BaseModel):
     #validator('ct'
 
 
-async def create_result(result):
-    document = result
-    result = await collection.insert_one(document)
-    return document
+async def create_result(pcr_result):
+    document = pcr_result
+    results_main = await collection.insert_one(document)
+    results_embedded = await create_sample(pcr_result.get("sample"))
+    return results_main,results_embedded
 
-
-async def fetch_by_sample(sample):
-    document = await collection.find_one({"barcode": sample.barcode})
-    return document
+#cursor = db.inventory.find({"size": SON([("h", 14), ("w", 21), ("uom", "cm")])})
+async def fetch_by_sample(barcode):
+    results = []
+    cursor =  collection.find({"sample": SON([("barcode", barcode)])})
+    async for document in cursor:
+        results.append(PcrResult(**document))
+    return results
 
 
 async def fetch_all_results():
@@ -39,9 +44,7 @@ async def fetch_all_results():
 
 
 async def update_result(barcode, positive):
-    await collection.update_one({"barcode": barcode}, {'$set': {"positive": positive}})
-    document = await collection.find_one({"barcode": barcode})
-    return document
+    pass
 
 
 async def remove_result(barcode):

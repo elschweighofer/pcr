@@ -1,7 +1,7 @@
 #type: ignore
 from functools import lru_cache, wraps
 from datetime import datetime, timedelta
-
+from functools import lru_cache
 
 def timed_lru_cache(seconds: int, maxsize: int = 128):
     def wrapper_cache(func):
