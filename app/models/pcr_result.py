@@ -10,16 +10,16 @@ collection = database.result
 
 
 class PcrResult (BaseModel):
-    sample: Sample
     ts: datetime = None #type: ignore
-    kit : PcrKit
-    ct_values: dict
-
+    result_values: dict
+    analyzer: str
     @validator('ts', pre=True, always=True)
     def set_ts_now(cls, v):
         return v or datetime.now()
 
-    #validator('ct'
+    @validator('analyzer')
+    def check_analyzer(cls,v):
+        pass
 
 
 async def create_result(pcr_result):

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, validator
 from app.utils.database import database
 
-
+#deprecated
 class PcrKit (BaseModel):
     name: str
     values: tuple

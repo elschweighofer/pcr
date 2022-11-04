@@ -6,19 +6,13 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    environment:
-      MONGO_DB_HOST: host.docker.internal
-      MONGO_DB_PORT: 27017
-      MONGO_DB_USER: root
-      MONGO_DB_PASSWORD: example
+    env_file: .env
     ports:
-      - 80:80
+      - ${LISTEN_PORT}:80
     
   mongo:
     image: mongo
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+    env_file: .env
     ports:
-      - 27017:27017
+      - ${MONGO_DB_PORT}:27017
