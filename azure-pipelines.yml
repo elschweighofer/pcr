@@ -22,4 +22,9 @@ steps:
   inputs:
     command: 'build'
     Dockerfile: '**/Dockerfile'
-    arguments: '--platform linux/amd64,linux/arm64'
+    arguments: '--platform linux/amd64'
+- task: Docker@2
+  inputs:
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    arguments: '--platform linux/arm64'
