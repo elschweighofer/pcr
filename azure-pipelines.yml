@@ -11,12 +11,18 @@ pool:
 
 
 steps:
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Docker Hub se22m055'
-    repository: 'se22m055 / microservice'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(Build.BuildId)
-      latest
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub se22m055'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        arguments: '--platform linux/amd64,linux/arm64'
+  
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub se22m055'
+        repository: 'se22m055 / microservice'
+        command: 'push'
+        tags: |
+          $(Build.BuildId)
+          latest
