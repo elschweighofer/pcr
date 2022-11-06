@@ -26,13 +26,8 @@ steps:
     tags: microservice
 - task: Docker@2
   inputs:
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
-    arguments: '--platform linux/arm64'
-    tags: microservice
-- task: Docker@2
-  inputs:
-    command: 'push'
     containerRegistry: 'Docker Hub se22m055'
-    repository: 'se22m055/microservice'
+    repository: 'microservice'
+    command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+    arguments: '--platform linux/arm64, inux/arm64'
