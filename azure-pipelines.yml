@@ -23,11 +23,13 @@ steps:
     command: 'build'
     Dockerfile: '**/Dockerfile'
     arguments: '--platform linux/amd64'
+    tags: se22m055/microservice
 - task: Docker@2
   inputs:
     command: 'build'
     Dockerfile: '**/Dockerfile'
     arguments: '--platform linux/arm64'
+    tags: se22m055/microservice
 - task: Docker@2
   inputs:
     command: 'push'
