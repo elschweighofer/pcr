@@ -15,8 +15,11 @@ steps:
       inputs:
         containerRegistry: 'Docker Hub se22m055'
         command: 'build'
+        repository: 'se22m055 / microservice'
         Dockerfile: '**/Dockerfile'
-        arguments: '--platform linux/amd64, linux/arm64'
+        tags: |
+          $(Build.BuildId)
+          latest
   
     - task: Docker@2
       inputs:
@@ -26,3 +29,4 @@ steps:
         tags: |
           $(Build.BuildId)
           latest
+
