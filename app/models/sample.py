@@ -11,11 +11,6 @@ class Sample(BaseModel):
     barcode: str #= Field(...)
     ts: datetime = None  # type: ignore
 
-    @validator('barcode')
-    def barcode_cannot_contain_yz(cls, v):
-        if 'y' in v or 'z' in v:
-            raise ValueError('cannot contain ambigiuos chars: y,z')
-        return v.title()
 
     @validator('ts', pre=True, always=True)
     def set_ts_now(cls, v):
@@ -25,13 +20,14 @@ class Sample(BaseModel):
 
 
 collection = database.sample
-
+#async def create_index():
+#    await collection.create_index("barcode", unique=True)
 
 async def create_sample(sample):
     document = sample
     results = await collection.insert_one(document)
     return document
-
+    
 
 async def fetch_one_sample(barcode):
     document = await collection.find_one({"barcode": barcode})

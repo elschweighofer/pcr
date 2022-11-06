@@ -3,6 +3,8 @@ FROM python:3.10.8-alpine3.16
 
 EXPOSE 80
 
+
+
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -19,6 +21,7 @@ COPY . /app
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
+
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
