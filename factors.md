@@ -3,7 +3,7 @@
 ## I. Codebase
 
 One codebase tracked in revision control, many deploys
-*Azure Devops Repo, Container Image in Azure Repo and on Docker Hub*
+*Azure Devops Repo, Container Image in Azure Repo and on Docker Hub and can be pulled and run where neeeded*
 
 ## II. Dependencies
 
@@ -64,5 +64,8 @@ for development and production as well (unlike e.g. the Flask Development Server
 Treat logs as event streams
 *The Logger is configured to write to sys.stdout, this could then be picked up by a log router like required by 12 Factor.*
 *Logging is not complete so far and still needs to be added to most functions*
+
 ## XII. Admin processes
+
 Run admin/management tasks as one-off processes
+*There are not really management Tasks except for the DB, and exectuing python scripts from the Repl in a container did not really work - so not achieved*
