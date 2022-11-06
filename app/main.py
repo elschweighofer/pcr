@@ -9,7 +9,7 @@ app = FastAPI(docs_url="/", redoc_url=None)
 
 @app.on_event("startup")
 async def startup_event():
-    result = await database.result.create_index("sample", unique=True)
+    result = await database.result.create_index("sample_barcode", unique=True)
     return 'created index'
 
 
@@ -32,6 +32,6 @@ async def get_result_by_sample(barcode):
     return response
 
 @app.delete("/delete/{barcode}",tags=["results"])
-async def remove_result(barcode):
+async def delete_result(barcode):
     response = await remove_result(barcode)
     return response

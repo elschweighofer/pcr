@@ -8,11 +8,6 @@ from pymongo.errors import DuplicateKeyError
 collection = database.result
 
 
-class Sample (BaseModel):
-    barcode: str
-    material: str
-
-
 class Kit(BaseModel):
     id: int
     name: str
@@ -20,10 +15,11 @@ class Kit(BaseModel):
 
 
 class Result (BaseModel):
-    sample: Sample
+    sample_barcode: str
     kit_id: str
     analyser_id: str
-    result_values: dict[str,float]
+    result_values: dict[str, float]
+
 
 async def create_result(result):
     document = result
@@ -34,13 +30,13 @@ async def create_result(result):
         return False
 
 
-
 async def fetch_by_sample(barcode):
     fetched = []
-    cursor = collection.find({"sample": SON([("barcode", barcode)])})
+    cursor = collection.find({"sample_barcode": barcode})
     async for document in cursor:
         fetched.append(Result(**document))
     return fetched
+
 
 async def fetch_all_results():
     fetched = []
@@ -50,15 +46,18 @@ async def fetch_all_results():
     return fetched
 
 
-async def update_result(barcode):
-    statement = collection.update_one()
+async def update_result(result):
+    old_document = await collection.find_one({'sample_barcode': result.get('sample_barcode')})
+    statement = collection.replace_one()
+    _id = old_document.get('_id')
+    result = await collection.replace_one({'_id': _id}, result)
+    new_document = await collection.find_one({'_id': _id})
+    return new_document
 
-    pass
 
-
-async def remove_result(barcode):
-    sample =  await collection.find_one({"barcode": barcode}) 
+async def remove_result(sample_barcode):
+    sample = await collection.find_one({"sample_barcode": sample_barcode})
     if sample is not None:
-        await collection.delete_one({"barcode": barcode})
-        return True
-    return False
+        await collection.delete_one({"sample_barcode": sample_barcode})
+        return f'Deleted Result with sample_barcode {sample_barcode}'
+    return f'No Result with sample_barcode {sample_barcode}'
