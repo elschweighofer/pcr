@@ -20,6 +20,7 @@ steps:
         tags: |
           $(Build.BuildId)
           latest
+        arguments: '--platform linux/arm64'
   
     - task: Docker@2
       inputs:
