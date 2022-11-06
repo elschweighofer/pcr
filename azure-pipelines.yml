@@ -20,14 +20,7 @@ pool:
 steps:
 - task: Docker@2
   inputs:
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
-    arguments: '--platform linux/amd64'
-    tags: microservice
-- task: Docker@2
-  inputs:
     containerRegistry: 'Docker Hub se22m055'
     repository: 'microservice'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    arguments: '--platform linux/arm64, inux/arm64'
