@@ -16,7 +16,7 @@ steps:
         containerRegistry: 'Docker Hub se22m055'
         command: 'build'
         Dockerfile: '**/Dockerfile'
-        arguments: '--platform linux/amd64,linux/arm64'
+        arguments: '--platform linux/amd64, linux/arm64'
   
     - task: Docker@2
       inputs:
