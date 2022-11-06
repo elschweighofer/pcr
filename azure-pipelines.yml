@@ -28,3 +28,12 @@ steps:
     command: 'build'
     Dockerfile: '**/Dockerfile'
     arguments: '--platform linux/arm64'
+- task: Docker@2
+  inputs:
+    command:
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub se22m055'
+    repository: 'microservice'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
