@@ -7,7 +7,7 @@ from app.utils.database import database
 # App Object
 app = FastAPI(docs_url="/", redoc_url=None)
 
-@app.on_event("startup")
+#@app.on_event("startup")
 async def startup_event():
     result = await database.result.create_index("sample_barcode", unique=True)
     logger.info( 'created index')
