@@ -6,18 +6,63 @@
 trigger:
 - main
 
+
 pool:
   vmImage: ubuntu-latest
 
-
 steps:
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'evergiven'
+    command: 'login'
+
 - task: Docker@2
   inputs:
     containerRegistry: 'Docker Hub se22m055'
-    repository: 'se22m055 / microservice'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(Build.BuildId)
-      latest
+    command: 'login'
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+- task: CmdLine@2
+  displayName: Build
+  inputs:
+    script: |
+      docker run --privileged --rm tonistiigi/binfmt --install arm64
+      docker run --privileged --rm tonistiigi/binfmt
+      docker buildx create --use
+      docker buildx build --platform linux/amd64,linux/arm64 \
+        -t se22m055/microservice:$(build.buildNumber) \
+        -t se22m055/microservice:latest \
+        -t evergiven.azurecr.io/micropcr:$(build.buildNumber) \
+        -t evergiven.azurecr.io/micropcr:latest \
+        --push \
+        .
+
+
+
+# Old / Docker prebuilt
+# trigger:
+# - main
+
+# pool:
+#   vmImage: ubuntu-latest
+
+
+# steps:
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'Docker Hub se22m055'
+#     repository: 'se22m055 / microservice'
+#     command: 'buildAndPush'
+#     Dockerfile: '**/Dockerfile'
+#     tags: |
+#       $(Build.BuildId)
+#       latest
+
+# Docker multi registry, multi plattform
 
